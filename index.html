@@ -1,0 +1,327 @@
+<html>
+<!-- ===== Professional Scientific Calculator | Blogger-ready | all selectors scoped to #psc-root ===== --> 
+<style>
+#psc-root{all:initial;display:block!important;width:100%!important;min-height:650px!important;box-sizing:border-box!important;max-width:100%;margin:16px 0;padding:16px;position:relative;background:#0b0f19;border:1px solid #1e293b;border-radius:18px;color:#e5edff;font:16px/1.4 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;text-align:left;outline:none}
+#psc-root:focus-visible{outline:2px solid #3b82f6}
+#psc-root *,#psc-root *::before,#psc-root *::after{box-sizing:border-box;margin:0;padding:0;float:none;font-family:inherit;letter-spacing:normal;text-transform:none;text-shadow:none}
+#psc-root button{-webkit-appearance:none;appearance:none;display:block;width:auto;height:auto;min-width:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;font:inherit;line-height:1.2;text-decoration:none;cursor:pointer;transition:box-shadow .15s,border-color .15s,background .15s,transform .08s}
+#psc-root .psc-ad{display:block;width:100%;max-width:100%;min-height:90px;margin:0 auto 14px;text-align:center;overflow:hidden}
+#psc-root .psc-ad.psc-ad-b{margin:14px auto 0}
+#psc-root .psc-ad:empty::before{content:"Ad space";display:flex;align-items:center;justify-content:center;min-height:90px;border:1px dashed #243049;border-radius:10px;color:#475569;font-size:12px}
+#psc-root .psc-calc{display:block;width:100%;max-width:440px;margin:0 auto;padding:14px;background:#111827;border:1px solid #1f2a44;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+#psc-root .psc-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+#psc-root .psc-title{flex:1 1 120px;font-size:14px;font-weight:600;color:#93b4f5}
+#psc-root .psc-mem{min-width:14px;font-size:12px;font-weight:700;color:#3b82f6}
+#psc-root .psc-seg{display:flex;border:1px solid #243049;border-radius:8px;overflow:hidden}
+#psc-root button.psc-chip{padding:6px 10px;font-size:12px;font-weight:600;color:#8ea2c8}
+#psc-root button.psc-solo{border:1px solid #243049;border-radius:8px}
+#psc-root button.psc-chip[aria-pressed="true"]{background:#3b82f6;color:#fff}
+#psc-root button.psc-chip:hover{box-shadow:0 0 10px rgba(59,130,246,.5)}
+#psc-root .psc-screen{display:block;margin-bottom:12px;padding:12px 14px;background:#0b0f19;border:1px solid #1f2a44;border-radius:12px;text-align:right}
+#psc-root .psc-expr{min-height:24px;font-size:15px;color:#7c8aa5;white-space:nowrap;overflow-x:auto;scrollbar-width:none}
+#psc-root .psc-res{min-height:50px;font-size:40px;font-weight:600;line-height:1.25;color:#fff;white-space:nowrap;overflow-x:auto;scrollbar-width:none;font-variant-numeric:tabular-nums}
+#psc-root .psc-expr::-webkit-scrollbar,#psc-root .psc-res::-webkit-scrollbar{display:none}
+#psc-root .psc-res.psc-live{color:#cfe0ff}
+#psc-root .psc-res.psc-err{color:#f87171;font-size:20px!important;line-height:2.4}
+#psc-root .psc-hist{display:block;max-height:150px;margin-bottom:12px;padding:6px;overflow:auto;background:#0b0f19;border:1px solid #1f2a44;border-radius:12px}
+#psc-root .psc-hist[hidden]{display:none!important}
+#psc-root .psc-empty{padding:8px;font-size:13px;color:#64748b;text-align:center}
+#psc-root button.psc-hi,#psc-root button.psc-hc{width:100%;padding:7px 8px;border-radius:6px;font-size:13px;text-align:right;color:#a8b8d8}
+#psc-root button.psc-hc{color:#f87171;text-align:center;margin-top:4px}
+#psc-root button.psc-hi:hover,#psc-root button.psc-hc:hover{background:#172036}
+#psc-root .psc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+#psc-root button.psc-b{min-height:48px;padding:4px;border:1px solid #243049;border-radius:10px;background:#1a2234;color:#e5edff;font-size:16px;text-align:center}
+#psc-root button.psc-f{background:#121a2e;color:#8db4ff;font-size:15px}
+#psc-root button.psc-m{background:#0f1626;color:#7c8aa5;font-size:13px}
+#psc-root button.psc-o{background:rgba(59,130,246,.16);border-color:#1e3a8a;color:#60a5fa;font-size:20px}
+#psc-root button.psc-x{color:#f87171;font-weight:600;font-size:14px}
+#psc-root button.psc-e{grid-column:span 2;background:#3b82f6;border-color:#3b82f6;color:#fff;font-size:22px;font-weight:600;box-shadow:0 0 14px rgba(59,130,246,.4)}
+#psc-root button.psc-b:hover{border-color:#3b82f6;box-shadow:0 0 14px rgba(59,130,246,.45)}
+#psc-root button.psc-b:active{transform:scale(.96)}
+#psc-root button:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+@media (max-width:420px){#psc-root{padding:10px}#psc-root .psc-calc{padding:10px}#psc-root .psc-grid{gap:6px}#psc-root button.psc-b{min-height:44px;font-size:14px}#psc-root button.psc-o{font-size:18px}#psc-root button.psc-e{font-size:19px}}
+@media (prefers-reduced-motion:reduce){#psc-root *{transition:none!important}}
+</style>
+<div id="psc-root" tabindex="0" role="group" aria-label="Professional Scientific Calculator">
+<div class="psc-ad psc-ad-t"><!-- Adsterra Top Banner Ad Placement (728x90 / 320x50): paste your Adsterra script INSIDE this div --></div>
+<div class="psc-calc">
+<div class="psc-bar"><span class="psc-title">Scientific Calculator</span><span class="psc-mem" aria-live="polite"></span><div class="psc-seg"><button type="button" class="psc-chip" data-a="deg">DEG</button><button type="button" class="psc-chip" data-a="rad">RAD</button></div><button type="button" class="psc-chip psc-solo" data-a="inv">INV</button></div>
+<div class="psc-screen"><div class="psc-expr" aria-live="off"></div><div class="psc-res" aria-live="polite">0</div></div>
+<div class="psc-hist" hidden></div>
+<div class="psc-grid"></div>
+</div>
+<div class="psc-ad psc-ad-b"><!-- Adsterra Bottom/Sidebar Ad Placement (300x250 / 728x90): paste your Adsterra script INSIDE this div --></div>
+</div>
+<script>
+(function(){
+'use strict';
+var root=document.getElementById('psc-root');
+if(!root||root.getAttribute('data-ready'))return;
+root.setAttribute('data-ready','1');
+try{
+var q=function(s){return root.querySelector(s)};
+var elE=q('.psc-expr'),elR=q('.psc-res'),grid=q('.psc-grid'),hist=q('.psc-hist'),memEl=q('.psc-mem');
+var bDeg=q('[data-a="deg"]'),bRad=q('[data-a="rad"]'),bInv=q('[data-a="inv"]');
+var S={e:'',fresh:false,top:'',deg:true,inv:false,mem:0,hasMem:false,last:'0',err:'',hist:[]};
+var NAMES=['asin','acos','atan','sin','cos','tan','log','ln','sqrt'];
+var MAP={'−':'-','×':'*','÷':'/'};
+var DEF=[
+['MC','#mc','m'],['MR','#mr','m'],['M+','#mp','m'],['M−','#mm','m'],['HIS','#his','m'],
+['sin','sin(','f','sin⁻¹','asin('],['cos','cos(','f','cos⁻¹','acos('],['tan','tan(','f','tan⁻¹','atan('],['ln','ln(','f'],['log','log(','f'],
+['√','√(','f'],['x²','^(2)','f'],['xʸ','^','f'],['eˣ','e^(','f'],['n!','!','f'],
+['(','(','f'],[')',')','f'],['π','π','f'],['e','e','f'],['%','%','f'],
+['7','7','n'],['8','8','n'],['9','9','n'],['DEL','#del','x'],['AC','#ac','x'],
+['4','4','n'],['5','5','n'],['6','6','n'],['×','×','o'],['÷','÷','o'],
+['1','1','n'],['2','2','n'],['3','3','n'],['+','+','o'],['−','−','o'],
+['0','0','n'],['.','.','n'],['±','#neg','n'],['=','#eq','e']];
+var invBtns=[];
+DEF.forEach(function(d){
+var b=document.createElement('button');
+b.type='button';b.className='psc-b psc-'+d[2];b.textContent=d[0];
+if(d[1].charAt(0)==='#')b.setAttribute('data-a',d[1].slice(1));else b.setAttribute('data-t',d[1]);
+if(d[3])invBtns.push({b:b,n:[d[0],d[1]],i:[d[3],d[4]]});
+grid.appendChild(b);
+});
+/* ---------- math engine (no eval) ---------- */
+function tokenize(s){
+var t=[],i=0,c,r,m,j;
+while(i<s.length){
+c=s.charAt(i);r=s.slice(i);
+if(c===' '){i++;continue}
+m=/^(\d+\.?\d*|\.\d+)(E[+-]?\d+)?/.exec(r);
+if(m){t.push({t:'n',v:parseFloat(m[0])});i+=m[0].length;continue}
+if(c==='π'){t.push({t:'n',v:Math.PI});i++;continue}
+if(c==='e'){t.push({t:'n',v:Math.E});i++;continue}
+if(c==='√'){t.push({t:'f',v:'sqrt'});i++;continue}
+m=null;
+for(j=0;j<NAMES.length;j++){if(r.indexOf(NAMES[j])===0){m=NAMES[j];break}}
+if(m){t.push({t:'f',v:m});i+=m.length;continue}
+if('+-−×*÷/^!%()'.indexOf(c)>-1){t.push({t:'o',v:MAP[c]||c});i++;continue}
+throw new Error('Syntax error');
+}
+return t;
+}
+function fact(n){
+if(n<0||Math.floor(n)!==n)throw new Error('Integers 0 or higher only');
+if(n>170)throw new Error('Number too large');
+var r=1;for(var i=2;i<=n;i++)r*=i;return r;
+}
+function call(f,a){
+var r,x;
+if(f==='sin'||f==='cos'||f==='tan'){
+x=S.deg?a*Math.PI/180:a;
+if(f==='tan'&&Math.abs(Math.cos(x))<1e-12)throw new Error('Undefined');
+r=Math[f](x);if(Math.abs(r)<1e-14)r=0;return r;
+}
+if(f==='asin'||f==='acos'){
+if(Math.abs(a)>1)throw new Error('Input must be -1 to 1');
+r=Math[f](a);return S.deg?r*180/Math.PI:r;
+}
+if(f==='atan'){r=Math.atan(a);return S.deg?r*180/Math.PI:r}
+if(f==='ln'||f==='log'){
+if(a<=0)throw new Error('Input must be above 0');
+return f==='ln'?Math.log(a):Math.log10(a);
+}
+if(f==='sqrt'){if(a<0)throw new Error('No real square root');return Math.sqrt(a)}
+throw new Error('Syntax error');
+}
+function evalExpr(s){
+var open=(s.match(/\(/g)||[]).length-(s.match(/\)/g)||[]).length;
+if(open>0)s+=Array(open+1).join(')');
+var tk=tokenize(s),p=0;
+if(!tk.length)return 0;
+function isO(v){var x=tk[p];return !!x&&x.t==='o'&&x.v===v}
+function need(){if(!isO(')'))throw new Error('Missing )');p++}
+function starts(){var x=tk[p];return !!x&&(x.t==='n'||x.t==='f'||(x.t==='o'&&x.v==='('))}
+function expr(){
+var v=term(),o,r;
+while(isO('+')||isO('-')){o=tk[p++].v;r=term();v=o==='+'?v+r:v-r}
+return v;
+}
+function term(){
+var v=unary(),d;
+for(;;){
+if(isO('*')){p++;v*=unary()}
+else if(isO('/')){p++;d=unary();if(d===0)throw new Error('Cannot divide by zero');v/=d}
+else if(starts()){v*=unary()}
+else break;
+}
+return v;
+}
+function unary(){
+if(isO('-')){p++;return -unary()}
+if(isO('+')){p++;return unary()}
+return pow();
+}
+function pow(){
+var b=post();
+if(isO('^')){p++;return Math.pow(b,unary())}
+return b;
+}
+function post(){
+var v=prim();
+for(;;){
+if(isO('!')){p++;v=fact(v)}
+else if(isO('%')){p++;v/=100}
+else break;
+}
+return v;
+}
+function prim(){
+var x=tk[p++],a;
+if(!x)throw new Error('Incomplete expression');
+if(x.t==='n')return x.v;
+if(x.t==='f'){
+if(!isO('('))throw new Error('Syntax error');
+p++;a=expr();need();return call(x.v,a);
+}
+if(x.v==='('){a=expr();need();return a}
+throw new Error('Syntax error');
+}
+var v=expr();
+if(p<tk.length)throw new Error('Syntax error');
+return v;
+}
+function fmt(n){
+if(typeof n!=='number'||!isFinite(n))throw new Error('Math error');
+n=parseFloat(n.toPrecision(12));
+if(n===0)n=0;
+return String(n).replace('e','E');
+}
+/* ---------- state & rendering ---------- */
+function curVal(){
+if(S.fresh)return parseFloat(S.e)||0;
+try{return evalExpr(S.e)}catch(x){return parseFloat(S.last)||0}
+}
+function render(){
+var txt,cls='psc-res',n,size;
+if(S.err){txt=S.err;cls+=' psc-err'}
+else if(S.fresh){txt=S.e}
+else{
+if(!S.e){txt='0'}
+else{try{txt=fmt(evalExpr(S.e))}catch(x){txt=S.last||'0'}}
+S.last=txt;cls+=' psc-live';
+}
+txt=txt.replace('E','e');
+elR.className=cls;elR.textContent=txt;
+if(S.err){elR.style.fontSize=''}
+else{n=txt.length;size=n<=9?40:n<=12?32:n<=16?26:20;elR.style.fontSize=size+'px'}
+elE.textContent=S.fresh?S.top:S.e;
+elE.scrollLeft=elE.scrollWidth;
+bDeg.setAttribute('aria-pressed',String(S.deg));
+bRad.setAttribute('aria-pressed',String(!S.deg));
+bInv.setAttribute('aria-pressed',String(S.inv));
+memEl.textContent=S.hasMem?'M':'';
+}
+function applyInv(){
+invBtns.forEach(function(o){var v=S.inv?o.i:o.n;o.b.textContent=v[0];o.b.setAttribute('data-t',v[1])});
+}
+function input(t){
+var OPS='+−×÷',c0=t.charAt(0),last,m;
+S.err='';
+if(S.fresh){if('+−×÷^!%)'.indexOf(c0)<0)S.e='';S.fresh=false}
+if(!S.e&&'×÷^!%+)'.indexOf(c0)>-1){if(c0===')')return render();S.e='0'}
+last=S.e.slice(-1);
+if(t.length===1&&OPS.indexOf(t)>-1&&S.e){
+if(OPS.indexOf(last)>-1){
+if(!(t==='−'&&'×÷'.indexOf(last)>-1))S.e=S.e.slice(0,-1);
+}else if(last==='('&&t!=='−'&&t!=='+'){return render()}
+}
+if(t==='.'){
+m=/[\d.]*$/.exec(S.e)[0];
+if(m.indexOf('.')>-1)return render();
+if(!m)t='0.';
+}
+if(S.e.length>=200)return render();
+S.e+=t;render();
+}
+function equals(){
+if(!S.e||S.fresh)return;
+try{
+var v=fmt(evalExpr(S.e));
+S.hist.unshift({e:S.e,r:v});
+if(S.hist.length>30)S.hist.pop();
+S.top=S.e+' =';S.e=v;S.fresh=true;S.err='';S.last=v;
+buildHist();
+}catch(x){S.err=x.message||'Error'}
+render();
+}
+function buildHist(){
+hist.textContent='';
+var d,b;
+if(!S.hist.length){
+d=document.createElement('div');d.className='psc-empty';d.textContent='No calculations yet.';hist.appendChild(d);return;
+}
+S.hist.forEach(function(h){
+b=document.createElement('button');b.type='button';b.className='psc-hi';
+b.setAttribute('data-h',h.r);b.setAttribute('data-he',h.e);
+b.textContent=h.e+' = '+h.r.replace('E','e');hist.appendChild(b);
+});
+b=document.createElement('button');b.type='button';b.className='psc-hc';
+b.setAttribute('data-a','hclear');b.textContent='Clear history';hist.appendChild(b);
+}
+var A={
+ac:function(){S.e='';S.err='';S.fresh=false;S.top='';S.last='0'},
+del:function(){
+S.err='';S.fresh=false;
+var s=S.e,r=s.replace(/(a?(?:sin|cos|tan)|log|ln|√)\($/,'');
+S.e=r!==s?r:s.slice(0,-1);
+},
+neg:function(){
+S.err='';S.fresh=false;
+if(!S.e)return;
+var m=/^−\(([^()]*)\)$/.exec(S.e);
+S.e=m?m[1]:'−('+S.e+')';
+},
+mc:function(){S.mem=0;S.hasMem=false},
+mr:function(){
+if(!S.hasMem)return;
+var s=fmt(S.mem);input(S.mem<0?'('+s+')':s);
+},
+mp:function(){S.mem=parseFloat((S.mem+curVal()).toPrecision(12));S.hasMem=true},
+mm:function(){S.mem=parseFloat((S.mem-curVal()).toPrecision(12));S.hasMem=true},
+eq:equals,
+his:function(){hist.hidden=!hist.hidden;if(!hist.hidden)buildHist()},
+hclear:function(){S.hist=[];buildHist()},
+deg:function(){S.deg=true},
+rad:function(){S.deg=false},
+inv:function(){S.inv=!S.inv;applyInv()}
+};
+root.addEventListener('click',function(ev){
+var b=ev.target&&ev.target.closest?ev.target.closest('button'):null;
+if(!b||!root.contains(b))return;
+var a=b.getAttribute('data-a'),t=b.getAttribute('data-t'),h=b.getAttribute('data-h');
+if(t!==null){input(t)}
+else if(h!==null){
+S.fresh=false;
+input(h.charAt(0)==='-'?'('+h+')':h);
+hist.hidden=true;
+}
+else if(a&&A[a]){A[a]();render()}
+try{root.focus({preventScroll:true})}catch(e){}
+});
+root.addEventListener('keydown',function(ev){
+if(ev.ctrlKey||ev.metaKey||ev.altKey)return;
+var k=ev.key,ok=true;
+if(/^[0-9]$/.test(k)||'.()^!%+'.indexOf(k)>-1&&k.length===1)input(k);
+else if(k==='-')input('−');
+else if(k==='*'||k==='x'||k==='X')input('×');
+else if(k==='/')input('÷');
+else if(k==='p'||k==='P')input('π');
+else if(k==='Enter'||k==='=')A.eq();
+else if(k==='Backspace')A.del();
+else if(k==='Escape'||k==='Delete')A.ac();
+else ok=false;
+if(ok){ev.preventDefault();render()}
+});
+buildHist();applyInv();render();
+}catch(err){
+try{
+var r=document.getElementById('psc-root').querySelector('.psc-res');
+if(r)r.textContent='Calculator failed to load';
+if(window.console)console.error('PSC calculator error:',err);
+}catch(e2){}
+}
+})();
+</script>
+</html>
